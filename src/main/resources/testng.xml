@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="atlas-popo" parallel="true" thread-count="10">
+<suite name="sha-popo" parallel="true" thread-count="10">
 
-    <test name="atlas" parallel="methods" thread-count="10">
-        <!--<classes>-->
-            <!--<class name="popo.atlas.app.FindRepositoryTest"/>-->
-        <!--</classes>-->
+    <test name="sha" parallel="methods" thread-count="10">
         <packages>
-            <package name="com.epam.sha.selenium"/>
+            <package name="popo.epam.sha.selenide"/>
         </packages>
     </test>
 
