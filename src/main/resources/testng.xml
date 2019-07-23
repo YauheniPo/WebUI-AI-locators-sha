@@ -3,6 +3,7 @@
 <suite name="sha-popo" parallel="true" thread-count="10">
 
     <test name="sha" parallel="methods" thread-count="10">
+        <parameter name="game" value="Dota"/>
         <packages>
             <package name="popo.epam.sha.selenide"/>
         </packages>
