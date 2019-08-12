@@ -1,23 +1,25 @@
-package popo.epam.sha.selenide.pages;
+package popo.epam.sha.selenium.pages;
 
 import com.epam.sha.selenium.PageAwareBy;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import popo.epam.sha.selenium.driver.Browser;
 
-import static com.codeborne.selenide.Selenide.$;
-
+@NoArgsConstructor
 public class SteamMainPage extends BasePage {
 
-    private final String searchInputFieldId = "store_nav_search_term";
+    private String searchInputFieldId = "store_nav_search_term";
 
     public SteamMainPage setSearchValue(String text) {
         PageAwareBy by = PageAwareBy.by("main", By.id(searchInputFieldId));
-        $(by).setValue(text);
+        Browser.getDriver().findElement(by).sendKeys(text);
         return this;
     }
 
     public SteamSearchPage clickSearch() {
         PageAwareBy by = PageAwareBy.by("main", By.id(searchInputFieldId));
-        $(by).pressEnter();
+        Browser.getDriver().findElement(by).sendKeys(Keys.ENTER);
         return new SteamSearchPage();
     }
 

@@ -1,15 +1,15 @@
-package popo.epam.sha.selenide;
+package popo.epam.sha.selenium;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import popo.epam.sha.selenide.pages.SteamMainPage;
-import popo.epam.sha.selenide.pages.SteamSearchPage;
 import org.testng.annotations.Test;
+import popo.epam.sha.selenium.pages.SteamMainPage;
+import popo.epam.sha.selenium.pages.SteamSearchPage;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.util.List;
 
 public class SearchGameTest extends BaseTest {
 
@@ -25,8 +25,7 @@ public class SearchGameTest extends BaseTest {
     public void testSearchGame() {
         SteamMainPage steamMainPage = new SteamMainPage();
         SteamSearchPage steamSearchPage = steamMainPage.search(game);
-        ElementsCollection results = steamSearchPage.getResults();
-        assertThat(String.format("The first searching result has not text '%s'", game),
-                results.first().has(Condition.text(game)));
+        List<WebElement> results = steamSearchPage.getResults();
+        Assert.assertTrue(results.get(0).getText().contains(game), String.format("The first searching result has not text '%s'", game));
     }
 }
