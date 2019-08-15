@@ -4,7 +4,6 @@ import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.DriverManagerType;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -39,7 +38,7 @@ final public class BrowserFactory {
      * @return RemoteWebDriver
      * @throws NamingException NamingException
      */
-    public static WebDriver setUp(final String type) throws NamingException {
+    public static RemoteWebDriver setUp(final String type) throws NamingException {
         for (Browser.BrowserType browserType : Browser.BrowserType.values()) {
             if (browserType.getValue().equalsIgnoreCase(type)) {
                 return setUp(browserType);

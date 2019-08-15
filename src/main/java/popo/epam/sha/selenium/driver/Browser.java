@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import popo.epam.sha.selenium.BrowserProperties;
 import popo.epam.sha.selenium.SmartWait;
@@ -22,7 +23,9 @@ public final class Browser {
 
     private static final BrowserProperties BROWSER_PROPERTIES = BrowserProperties.getInstance();
     private static final String currentBrowser = System.getProperty("browser", BROWSER_PROPERTIES.getBrowser());
-    private static ThreadLocal<SelfHealingDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
+    private static ThreadLocal<WebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
+    private static EngineConfig engineConfig = EngineConfig.custom()
+            .setStorage(new FileSystemPathStorage(Paths.get("sha", "selenium"))).build();
     private static Browser instance = new Browser();
 
     private Browser() {
@@ -45,7 +48,7 @@ public final class Browser {
         return instance;
     }
 
-    public static SelfHealingDriver getDriver() {
+    public static WebDriver getDriver() {
         if (driverHolder.get() == null) {
             driverHolder.set(getNewDriver());
         }
@@ -114,14 +117,12 @@ public final class Browser {
         private final String value;
     }
 
-    private static SelfHealingDriver getNewDriver() {
-        EngineConfig engineConfig = EngineConfig.custom()
-                .setStorage(new FileSystemPathStorage(Paths.get("sha", "selenium"))).build();
+    private static WebDriver getNewDriver() {
         try {
-            SelfHealingDriver driver = new SelfHealingDriver(BrowserFactory.setUp(currentBrowser), engineConfig);
+            RemoteWebDriver driver = BrowserFactory.setUp(currentBrowser);
             driver.manage().timeouts().implicitlyWait(BROWSER_PROPERTIES.getDefaultImplicitlyWait(), TimeUnit.SECONDS);
             log.info("getNewDriver");
-            return driver;
+            return new SelfHealingDriver(driver, engineConfig);
         } catch (NamingException e) {
             log.error("getNewDriver", e);
         }
