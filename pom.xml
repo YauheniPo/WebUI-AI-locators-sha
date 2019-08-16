@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.epam.sha</groupId>
             <artifactId>selenium</artifactId>
-            <version>1.2.0-SNAPSHOT</version>
+            <version>1.2.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>ru.yandex.qatools.properties</groupId>
