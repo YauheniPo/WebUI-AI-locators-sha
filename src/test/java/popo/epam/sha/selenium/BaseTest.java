@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import popo.epam.sha.selenium.driver.Browser;
+import popo.epam.sha.selenium.utils.StageProperties;
 
 public class BaseTest {
 

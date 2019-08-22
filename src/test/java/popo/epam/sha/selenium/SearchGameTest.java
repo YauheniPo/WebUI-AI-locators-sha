@@ -13,19 +13,21 @@ import java.util.List;
 
 public class SearchGameTest extends BaseTest {
 
-    private String game;
+    private String gameName;
 
     @BeforeClass
     @Parameters("game")
-    public void beforeClass(@Optional(value = "Dota") String game) {
-        this.game = game;
+    public void beforeClass(@Optional(value = "Dota") String gameName) {
+        this.gameName = gameName;
     }
 
     @Test
     public void testSearchGame() {
         SteamMainPage steamMainPage = new SteamMainPage();
-        SteamSearchPage steamSearchPage = steamMainPage.search(game);
+        SteamSearchPage steamSearchPage = steamMainPage.search(gameName);
         List<WebElement> results = steamSearchPage.getResults();
-        Assert.assertTrue(results.get(0).getText().contains(game), String.format("The first searching result has not text '%s'", game));
+
+        boolean isResultsContainsGameName = results.stream().findFirst().get().getText().contains(gameName);
+        Assert.assertTrue(isResultsContainsGameName, String.format("Searching results have not contained text '%s'", gameName));
     }
 }

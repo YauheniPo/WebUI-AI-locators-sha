@@ -1,4 +1,4 @@
-package popo.epam.sha.selenium;
+package popo.epam.sha.selenium.utils;
 
 import lombok.Getter;
 import ru.yandex.qatools.properties.PropertyLoader;

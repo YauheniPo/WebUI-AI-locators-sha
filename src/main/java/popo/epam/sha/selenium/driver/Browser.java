@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import popo.epam.sha.selenium.BrowserProperties;
+import popo.epam.sha.selenium.utils.BrowserProperties;
 import popo.epam.sha.selenium.SmartWait;
 
 import javax.naming.NamingException;

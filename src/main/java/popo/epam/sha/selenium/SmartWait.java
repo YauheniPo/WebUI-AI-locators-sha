@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import popo.epam.sha.selenium.driver.Browser;
+import popo.epam.sha.selenium.utils.BrowserProperties;
 
 import java.util.concurrent.TimeUnit;
 
