@@ -1,6 +1,6 @@
 package popo.epam.sha.selenium;
 
-import com.epam.sha.selenium.PageAwareBy;
+import com.epam.healenium.PageAwareBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;

@@ -1,21 +1,17 @@
 package popo.epam.sha.selenium.driver;
 
-import com.epam.sha.selenium.SelfHealingDriver;
-import com.epam.sha.selenium.config.EngineConfig;
-import com.epam.sha.selenium.data.FileSystemPathStorage;
+import com.epam.healenium.SelfHealingDriver;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import popo.epam.sha.selenium.utils.BrowserProperties;
 import popo.epam.sha.selenium.SmartWait;
+import popo.epam.sha.selenium.utils.BrowserProperties;
 
 import javax.naming.NamingException;
-import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 @Log4j2
@@ -23,9 +19,7 @@ public final class Browser {
 
     private static final BrowserProperties BROWSER_PROPERTIES = BrowserProperties.getInstance();
     private static final String currentBrowser = System.getProperty("browser", BROWSER_PROPERTIES.getBrowser());
-    private static ThreadLocal<WebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
-    private static EngineConfig engineConfig = EngineConfig.custom()
-            .setStorage(new FileSystemPathStorage(Paths.get("sha", "selenium"))).build();
+    private static ThreadLocal<SelfHealingDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
     private static Browser instance = new Browser();
 
     private Browser() {
@@ -48,11 +42,11 @@ public final class Browser {
         return instance;
     }
 
-    public static WebDriver getDriver() {
+    public static RemoteWebDriver getDriver() {
         if (driverHolder.get() == null) {
             driverHolder.set(getNewDriver());
         }
-        return driverHolder.get();
+        return (RemoteWebDriver) driverHolder.get().getDelegate();
     }
 
     public void exit() {
@@ -117,12 +111,12 @@ public final class Browser {
         private final String value;
     }
 
-    private static WebDriver getNewDriver() {
+    private static SelfHealingDriver getNewDriver() {
         try {
-            RemoteWebDriver driver = BrowserFactory.setUp(currentBrowser);
-            driver.manage().timeouts().implicitlyWait(BROWSER_PROPERTIES.getDefaultImplicitlyWait(), TimeUnit.SECONDS);
+            RemoteWebDriver delegate = BrowserFactory.setUp(currentBrowser);
+            delegate.manage().timeouts().implicitlyWait(BROWSER_PROPERTIES.getDefaultImplicitlyWait(), TimeUnit.SECONDS);
             log.info("getNewDriver");
-            return new SelfHealingDriver(driver, engineConfig);
+            return SelfHealingDriver.create(delegate);
         } catch (NamingException e) {
             log.error("getNewDriver", e);
         }
